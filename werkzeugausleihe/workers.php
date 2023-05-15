@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
 <meta charset="UTF-8">
 <title>Workers</title>
@@ -14,7 +14,10 @@
 			<div class="table-content table-header">Geburtsdatum</div>
 		</div>
 		<?php
-		require_once 'db.php';
+		namespace werkzeugausleihe;
+		use function werkzeugausleihe\getConnection;
+		
+		$conn = getConnection();
 
 		$result = $conn->query("SELECT * FROM mitarbeiter");
 
