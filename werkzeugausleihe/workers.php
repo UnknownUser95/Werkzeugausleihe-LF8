@@ -6,37 +6,32 @@
 <link rel="stylesheet" type="text/css" href="workers.css">
 </head>
 <body>
-	<div class="table">
-		<div class="table-header-row table-row">
-			<div class="table-content table-header">ID</div>
-			<div class="table-content table-header">Vorname</div>
-			<div class="table-content table-header">Nachname</div>
-			<div class="table-content table-header">Geburtsdatum</div>
-		</div>
-		<?php
-		namespace werkzeugausleihe;
-		use function werkzeugausleihe\getConnection;
-		
-		$conn = getConnection();
-
-		$result = $conn->query("SELECT * FROM mitarbeiter");
-
-		function output($row, $name) {
-			echo "<div class='table-content'>".$row[$name]."</div>";
-		}
-
-		if($result->num_rows > 0) {
-			// output data of each row
+	<form method="post" action="delete_workers.php">
+		<div class="table">
+			<div class="table-row table-header-row">
+				<div>ID</div>
+				<div>Vorname</div>
+				<div>Nachname</div>
+				<div>Geburtsdatum</div>
+				<div>X</div>
+			</div>
+			<?php
+			require_once 'db/connection.php';
+			$result = query("SELECT * FROM mitarbeiter");
 			while($row = $result->fetch_assoc()) {
-				echo "<div class='table-row'>";
-				output($row, "mitarbeiternr");
-				output($row, "vorname");
-				output($row, "nachname");
-				output($row, "geburtsdatum");
-				echo "</div>";
-			}
-		}
-		?>
-	</div>
+				?>
+			<div class="table-row">
+				<div><?php echo $row['mitarbeiternr']; ?></div>
+				<div><?php echo $row['vorname']; ?></div>
+				<div><?php echo $row['nachname']; ?></div>
+				<div><?php echo $row['geburtsdatum']; ?></div>
+				<div>
+					<input type='checkbox' name='selected[]' value='<?php echo $row['mitarbeiternr']; ?>'></input>
+				</div>
+			</div>
+		<?php } ?>
+		</div>
+		<input type="submit" value="delete" class="submit"></input>
+	</form>
 </body>
 </html>

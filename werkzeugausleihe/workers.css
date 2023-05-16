@@ -1,28 +1,28 @@
-.table-row {
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr 1fr;
-	width: fit-content;
-}
-
 .table {
 	display: flex;
 	flex-direction: column;
-	width: min(fit-content, 100%);
-	font-size: 1.5em;
-	margin: 1em;
 	overflow: scroll;
+	font-size: 1.3em;
+	border-left: 1px solid black;
+	border-bottom: 1px solid black;
+	width: fit-content;
 }
 
-.table-header {
+.table-header-row {
 	color: #FFF;
-	background-color: #000;
+	background-color: #000 !important;
 }
 
-.table-content {
-	padding: 0 1em;
-	width: 300px;
-	border: solid 1px black;
-	box-sizing: border-box;
+.table-row {
+	display: flex;
+	width: fit-content;
+}
+
+.table-row > div {
+	min-width: 200px;
+	max-width: 200px;
+	padding-left: 1em;
+	border-right: 1px solid black;
 }
 
 .table > div:nth-child(even) {
@@ -31,4 +31,8 @@
 
 .table > div:nth-child(odd) {
 	background-color: #CCC;
+}
+
+input[type=submit] {
+	margin-top: 1em;
 }
