@@ -1,11 +1,16 @@
+body {
+	background-color: #333;
+}
+
 .table {
 	display: flex;
 	flex-direction: column;
 	overflow: scroll;
 	font-size: 1.3em;
-	border-left: 1px solid black;
-	border-bottom: 1px solid black;
+	border: 1px solid black;
+	border-radius: 4px;
 	width: fit-content;
+	max-width: 100%;
 }
 
 .table-header-row {
@@ -21,8 +26,11 @@
 .table-row > div {
 	min-width: 200px;
 	max-width: 200px;
-	padding-left: 1em;
+	padding-left: 0.5em;
 	border-right: 1px solid black;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
 }
 
 .table > div:nth-child(even) {
@@ -33,6 +41,60 @@
 	background-color: #CCC;
 }
 
-input[type=submit] {
-	margin-top: 1em;
+.no-border {
+	border: none !important;
+	min-width: 201px !important;
+	max-width: 201px !important;
+}
+
+.actions {
+	width: 100%;
+}
+
+.actions-grid {
+	padding-right: 1em;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+}
+
+.editor {
+	background-color: #999;
+	display: flex;
+	flex-direction: column;
+	padding: 1em;
+	margin-bottom: 1em;
+	border-radius: 4px;
+}
+
+.editor > div {
+	display: grid;
+	grid-template-columns: 200px 1fr;
+}
+
+.editor > div > span {
+	padding-left: 0.5em;
+}
+
+.result-message {
+	margin-bottom: 1em;
+	width: fit-content;
+	padding: 0.5em;
+	border-radius: 4px;
+}
+
+.editor > button {
+	margin-top: 0.5em;
+}
+
+.error-message {
+	background-color: red;
+}
+
+.good-message {
+	background-color: green;
+}
+
+#save-button {
+	height: 2.5em;
+	font-size: 1em;
 }

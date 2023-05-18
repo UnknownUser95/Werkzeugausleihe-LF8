@@ -1,6 +1,6 @@
 <?php
-// namespace werkzeugausleihe\db;
-// use mysqli;
+session_start();
+
 $server = "localhost";
 $user = "root";
 $password = "root";
@@ -13,11 +13,14 @@ if($conn->connect_error) {
 	exit("db connection failed: " + $conn->connect_error);
 }
 
-if(!$conn->set_charset("utf8")) {
+if(!$conn->set_charset("utf8mb4")) {
 	exit("could not change charset");
 }
 
-function query($q) {
-	global $conn;
-	return $conn->query($q);
+define("CON", "db_connection");
+$_SESSION[CON] = $conn;
+
+define("DATE_FORMAT", 'Y-m-d');
+function strToDate($str) {
+	return date(DATE_FORMAT, strtotime($str));
 }
