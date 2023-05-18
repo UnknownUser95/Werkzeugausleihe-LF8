@@ -6,6 +6,8 @@
 <link rel="stylesheet" type="text/css" href="workers.css">
 </head>
 <body>
+<?php require_once './header.html'; ?>
+	<div class="body">
 <?php
 require_once 'db/workers.php';
 if($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -13,23 +15,23 @@ if($_SERVER["REQUEST_METHOD"] === "POST") {
 		$worker = getWorkerByID($_POST["edit"]);
 		?>
 	<form method="post">
-		<div class="editor">
-			<input type="hidden" name="mitarbeiternr" value="<?php echo $worker['mitarbeiternr']; ?>" />
-			<div>
-				<span>Vorname:</span>
-				<input type="text" name="vorname" value="<?php echo $worker['vorname']; ?>" />
+			<div class="editor">
+				<input type="hidden" name="mitarbeiternr" value="<?php echo $worker['mitarbeiternr']; ?>" />
+				<div>
+					<span>Vorname:</span>
+					<input type="text" name="vorname" value="<?php echo $worker['vorname']; ?>" />
+				</div>
+				<div>
+					<span>Nachname:</span>
+					<input type="text" name="nachname" value="<?php echo $worker['nachname']; ?>" />
+				</div>
+				<div>
+					<span>Geburtsdatum:</span>
+					<input type="date" name="geburtsdatum" value="<?php echo $worker['geburtsdatum']; ?>" />
+				</div>
+				<button id="save-button" type="submit" name="edited" value="<?php echo $worker['mitarbeiternr']; ?>">save</button>
 			</div>
-			<div>
-				<span>Nachname:</span>
-				<input type="text" name="nachname" value="<?php echo $worker['nachname']; ?>" />
-			</div>
-			<div>
-				<span>Geburtsdatum:</span>
-				<input type="date" name="geburtsdatum" value="<?php echo $worker['geburtsdatum']; ?>" />
-			</div>
-			<button id="save-button" type="submit" name="edited" value="<?php echo $worker['mitarbeiternr']; ?>">save</button>
-		</div>
-	</form>
+		</form>
 	<?php
 	}
 
@@ -49,9 +51,12 @@ if($_SERVER["REQUEST_METHOD"] === "POST") {
 			}
 		}
 		?>
-		<div class="result-message <?php echo ($err) ? "error-message" : "good-message"; ?>">
-		<?php echo $msg; ?>
-		</div>
+		<form method="post">
+			<div class="result-message <?php echo ($err) ? "error-message" : "good-message"; ?>">
+				<button type="submit">hide</button>
+				<?php echo $msg; ?>
+			</div>
+		</form>
 		<?php
 	}
 
@@ -61,31 +66,32 @@ if($_SERVER["REQUEST_METHOD"] === "POST") {
 }
 ?>
 	<form method="post">
-		<div class="table">
-			<div class="table-row table-header-row">
-				<div>ID</div>
-				<div>Vorname</div>
-				<div>Nachname</div>
-				<div>Geburtsdatum</div>
-				<div>actions</div>
-			</div>
+			<div class="table">
+				<div class="table-row table-header-row">
+					<div>ID</div>
+					<div>Vorname</div>
+					<div>Nachname</div>
+					<div>Geburtsdatum</div>
+					<div>actions</div>
+				</div>
 			<?php
 			foreach(getAllWorkers() as $worker) {
 				?>
 			<div class="table-row">
-				<div><?php echo $worker['mitarbeiternr']; ?></div>
-				<div><?php echo $worker['vorname']; ?></div>
-				<div><?php echo $worker['nachname']; ?></div>
-				<div><?php echo $worker['geburtsdatum']; ?></div>
-				<div class="no-border actions">
-					<div class="actions-grid">
-						<button type="submit" name="delete" value="<?php echo $worker["mitarbeiternr"]; ?>">delete</button>
-						<button type="submit" name="edit" value="<?php echo $worker["mitarbeiternr"]; ?>">edit</button>
+					<div><?php echo $worker['mitarbeiternr']; ?></div>
+					<div><?php echo $worker['vorname']; ?></div>
+					<div><?php echo $worker['nachname']; ?></div>
+					<div><?php echo $worker['geburtsdatum']; ?></div>
+					<div class="no-border actions">
+						<div class="actions-grid">
+							<button type="submit" name="delete" value="<?php echo $worker["mitarbeiternr"]; ?>">delete</button>
+							<button type="submit" name="edit" value="<?php echo $worker["mitarbeiternr"]; ?>">edit</button>
+						</div>
 					</div>
 				</div>
-			</div>
 		<?php } ?>
 		</div>
-	</form>
+		</form>
+	</div>
 </body>
 </html>
