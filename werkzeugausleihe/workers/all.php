@@ -3,18 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <title>Workers</title>
-<link rel="stylesheet" type="text/css" href="workers.css">
+<link rel="stylesheet" type="text/css" href="all.css">
 </head>
 <body>
-<?php require_once './header.html'; ?>
-	<div class="body">
-<?php
-require_once 'db/workers.php';
-if($_SERVER["REQUEST_METHOD"] === "POST") {
-	if(isset($_POST['edit'])) {
-		$worker = getWorkerByID($_POST["edit"]);
-		?>
-	<form method="post">
+<?php require_once './../header.html'; ?>
+	<main>
+	<?php
+	require_once './../db/workers.php';
+	if($_SERVER["REQUEST_METHOD"] === "POST") {
+		if(isset($_POST['edit'])) {
+			$worker = getWorkerByID($_POST["edit"]);
+			?>
+		<form method="post">
 			<div class="editor">
 				<input type="hidden" name="mitarbeiternr" value="<?php echo $worker['mitarbeiternr']; ?>" />
 				<div>
@@ -29,28 +29,31 @@ if($_SERVER["REQUEST_METHOD"] === "POST") {
 					<span>Geburtsdatum:</span>
 					<input type="date" name="geburtsdatum" value="<?php echo $worker['geburtsdatum']; ?>" />
 				</div>
-				<button id="save-button" type="submit" name="edited" value="<?php echo $worker['mitarbeiternr']; ?>">save</button>
+				<div id="buttons">
+					<button id="save-button" type="submit" name="edited" value="<?php echo $worker['mitarbeiternr']; ?>">save</button>
+					<button id="save-button" type="submit" name="cancel" value="<?php echo $worker['mitarbeiternr']; ?>">cancel</button>
+				</div>
 			</div>
 		</form>
-	<?php
-	}
-
-	if(isset($_POST['edited'])) {
-		$msg = '';
-		$err = false;
-		if($_POST['geburtsdatum'] == '') {
-			$msg = "date must not be empty";
-			$err = true;
-		} else {
-			try {
-				editWorker($_POST['mitarbeiternr'], $_POST['vorname'], $_POST['nachname'], $_POST['geburtsdatum']);
-				$msg = "saved";
-			} catch(mysqli_sql_exception $exc) {
-				$err = true;
-				$msg = "an error occured: ".$exc->getMessage();
-			}
+		<?php
 		}
-		?>
+
+		if(isset($_POST['edited'])) {
+			$msg = '';
+			$err = false;
+			if($_POST['geburtsdatum'] == '') {
+				$msg = "date must not be empty";
+				$err = true;
+			} else {
+				try {
+					editWorker($_POST['mitarbeiternr'], $_POST['vorname'], $_POST['nachname'], $_POST['geburtsdatum']);
+					$msg = "saved";
+				} catch(mysqli_sql_exception $exc) {
+					$err = true;
+					$msg = "an error occured: ".$exc->getMessage();
+				}
+			}
+			?>
 		<form method="post">
 			<div class="result-message <?php echo ($err) ? "error-message" : "good-message"; ?>">
 				<button type="submit">hide</button>
@@ -58,13 +61,21 @@ if($_SERVER["REQUEST_METHOD"] === "POST") {
 			</div>
 		</form>
 		<?php
-	}
+		}
 
-	if(isset($_POST['delete'])) {
-		echo 'deleting '.$_POST['delete'];
+		if(isset($_POST['delete'])) {
+			deleteWorker($_POST['delete']);
+			?>
+			<form method="post">
+				<div class="result-message good-message">
+					<button type="submit">hide</button>
+					Mitarbeiter (<?php echo $_POST['delete']; ?>) wurde gelöscht
+				</div>
+			</form>
+			<?php
+		}
 	}
-}
-?>
+	?>
 	<form method="post">
 			<div class="table">
 				<div class="table-row table-header-row">
@@ -92,6 +103,6 @@ if($_SERVER["REQUEST_METHOD"] === "POST") {
 		<?php } ?>
 		</div>
 		</form>
-	</div>
+	</main>
 </body>
 </html>

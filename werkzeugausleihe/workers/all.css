@@ -1,4 +1,4 @@
-.body {
+main {
 	padding: 10px;
 }
 
@@ -73,6 +73,12 @@
 .editor > div {
 	display: grid;
 	grid-template-columns: 200px 1fr;
+}
+
+.editor > div:last-child {
+	padding-top: 0.5em;
+	grid-template-columns: 1fr 1fr;
+	gap: 0.5em;
 }
 
 .editor > div > span {

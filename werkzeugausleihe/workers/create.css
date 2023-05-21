@@ -1,0 +1,55 @@
+main {
+	padding: 10px;
+}
+
+.editor {
+	background-color: #999;
+	display: flex;
+	flex-direction: column;
+	padding: 1em;
+	margin-bottom: 1em;
+	border-radius: 4px;
+}
+
+.editor input {
+	overflow: hidden;
+}
+
+.editor > div {
+	display: grid;
+	grid-template-columns: 200px 1fr;
+}
+
+.editor > div > span {
+	padding-left: 0.5em;
+}
+
+.result-message {
+	font-size: 1.5em;
+	margin-bottom: 0.5em;
+	width: fit-content;
+	padding: 0.5em 1em;
+	border-radius: 4px;
+}
+
+.result-message > button {
+	margin-right: 1em;
+	font-size: 0.75em;
+}
+
+.editor > button {
+	margin-top: 0.5em;
+}
+
+.error-message {
+	background-color: red;
+}
+
+.good-message {
+	background-color: green;
+}
+
+#save-button {
+	height: 2.5em;
+	font-size: 1em;
+}

@@ -31,3 +31,11 @@ function editWorker($id, $vorname, $nachname, $geburtsdatum) {
 	$geburtsdatum = $conn->real_escape_string($geburtsdatum);
 	return $conn->query("UPDATE mitarbeiter SET vorname = '${vorname}', nachname = '${nachname}', geburtsdatum = '${geburtsdatum}' WHERE mitarbeiternr = ${id}");
 }
+
+function createWorker($vorname, $nachname, $geburtsdatum) {
+	$conn = $_SESSION[CON];
+	$vorname = $conn->real_escape_string($vorname);
+	$nachname = $conn->real_escape_string($nachname);
+	$geburtsdatum = $conn->real_escape_string($geburtsdatum);
+	return $conn->query("INSERT INTO mitarbeiter (vorname, nachname, geburtsdatum) VALUES ('{$vorname}', '{$nachname}', '{$geburtsdatum}')");
+}
