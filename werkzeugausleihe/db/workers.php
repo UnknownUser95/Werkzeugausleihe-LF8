@@ -2,12 +2,17 @@
 session_start();
 require_once 'connection.php';
 
-function deleteWorker($id) {
+function deleteWorker($id): bool {
 	$conn = $_SESSION[CON];
-	return $conn->query("DELETE FROM mitarbeiter where mitarbeiternr = ${id}");
+	try {
+		$conn->query("DELETE FROM mitarbeiter where mitarbeiternr = {$id}");
+		return true;
+	} catch (mysqli_sql_exception $exc) {
+		return false;
+	}
 }
 
-function getAllWorkers() {
+function getAllWorkers(): array {
 	$conn = $_SESSION[CON];
 	$result = $conn->query("SELECT * FROM mitarbeiter");
 	
@@ -19,23 +24,37 @@ function getAllWorkers() {
 	return $workers;
 }
 
-function getWorkerByID($id) {
+/**
+ * @param int $id the ID of th worker
+ * @return array associative array
+ */
+function getWorkerByID(int $id): array {
 	$conn = $_SESSION[CON];
-	return $conn->query("SELECT * FROM mitarbeiter WHERE mitarbeiternr = ${id}")->fetch_assoc();
+	return $conn->query("SELECT * FROM mitarbeiter WHERE mitarbeiternr = {$id}")->fetch_assoc();
 }
 
-function editWorker($id, $vorname, $nachname, $geburtsdatum) {
+function editWorker(int $id, string $vorname, string $nachname, string $geburtsdatum): bool {
 	$conn = $_SESSION[CON];
 	$vorname = $conn->real_escape_string($vorname);
 	$nachname = $conn->real_escape_string($nachname);
 	$geburtsdatum = $conn->real_escape_string($geburtsdatum);
-	return $conn->query("UPDATE mitarbeiter SET vorname = '${vorname}', nachname = '${nachname}', geburtsdatum = '${geburtsdatum}' WHERE mitarbeiternr = ${id}");
+	try {
+		$conn->query("UPDATE mitarbeiter SET vorname = '{$vorname}', nachname = '{$nachname}', geburtsdatum = '{$geburtsdatum}' WHERE mitarbeiternr = {$id}");
+		return true;
+	} catch (mysqli_sql_exception $exc) {
+		return false;
+	}
 }
 
-function createWorker($vorname, $nachname, $geburtsdatum) {
+function createWorker(string $vorname, string $nachname, string $geburtsdatum): bool {
 	$conn = $_SESSION[CON];
 	$vorname = $conn->real_escape_string($vorname);
 	$nachname = $conn->real_escape_string($nachname);
 	$geburtsdatum = $conn->real_escape_string($geburtsdatum);
-	return $conn->query("INSERT INTO mitarbeiter (vorname, nachname, geburtsdatum) VALUES ('{$vorname}', '{$nachname}', '{$geburtsdatum}')");
+	try {
+		$conn->query("INSERT INTO mitarbeiter (vorname, nachname, geburtsdatum) VALUES ('{$vorname}', '{$nachname}', '{$geburtsdatum}')");
+		return true;
+	} catch (mysqli_sql_exception $exc) {
+		return false;
+	}
 }

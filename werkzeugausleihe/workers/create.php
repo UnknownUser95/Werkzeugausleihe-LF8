@@ -3,21 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Mitarbeiter erstellen</title>
-<link rel="stylesheet" type="text/css" href="create.css">
+<link rel="stylesheet" type="text/css" href="./../common/create.css">
 </head>
 <body>
-	<?php require_once './../header.html';?>
+	<?php require_once './../header.html'; ?>
 	<main>
 		<?php
-
-		function setIfNotDefined($key, $value = '') {
-			if(!isset($_POST[$key])) {
-				$_POST[$key] = $value;
-			}
-		}
-		setIfNotDefined('vorname');
-		setIfNotDefined('nachname');
-		setIfNotDefined('geburtsdatum');
+		require_once './../common/functions.php';
+		setIfNotDefined(WORKER_ARGS);
 		?>
 		<form method="post">
 			<div class="editor">
@@ -38,41 +31,15 @@
 		</form>
 		<?php
 		if($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['save'])) {
-			$err = false;
-			$msg = '';
-			$invalid_keys = array();
-
-			function checkIfEmpty($key, $arr) {
-				if($_POST[$key] === '') {
-					$arr[] = $key;
-				}
-				return $arr;
-			}
-			$invalid_keys = checkIfEmpty('vorname', $invalid_keys);
-			$invalid_keys = checkIfEmpty('nachname', $invalid_keys);
-			$invalid_keys = checkIfEmpty('geburtsdatum', $invalid_keys);
+			$msg = verify(WORKER_ARGS);
+			$err = $msg !== "";
 			
-			if(sizeof($invalid_keys) !== 0) {
-				$err = true;
-				$first = true;
-				foreach($invalid_keys as $str) {
-					if(!$first) {
-						$msg .= ', ';
-					}
-					
-					$msg .= "'{$str}'";
-					$first = false;
-				}
-				$msg .= ' darf nicht leer sein!';
-			}
-			
-			if(!$err) {
+			if($msg === "") {
 				require_once './../db/workers.php';
-				try {
-					createWorker($_POST['vorname'], $_POST['nachname'], $_POST['geburtsdatum']);
+				if(createWorker($_POST['vorname'], $_POST['nachname'], $_POST['geburtsdatum'])) {
 					$msg = 'Mitarbeiter erstellt';
-				} catch(mysqli_sql_exception $exc) {
-					$msg = $err;
+				} else {
+					$msg = "Ein Fehler is aufgetreten";
 					$err = true;
 				}
 			}

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Workers</title>
-<link rel="stylesheet" type="text/css" href="all.css">
+<link rel="stylesheet" type="text/css" href="./../common/all.css">
 </head>
 <body>
 <?php require_once './../header.html'; ?>
@@ -30,8 +30,8 @@
 					<input type="date" name="geburtsdatum" value="<?php echo $worker['geburtsdatum']; ?>" />
 				</div>
 				<div id="buttons">
-					<button id="save-button" type="submit" name="edited" value="<?php echo $worker['mitarbeiternr']; ?>">save</button>
-					<button id="save-button" type="submit" name="cancel" value="<?php echo $worker['mitarbeiternr']; ?>">cancel</button>
+					<button type="submit" name="edited" value="<?php echo $worker['mitarbeiternr']; ?>">speichern</button>
+					<button type="submit" name="cancel" value="<?php echo $worker['mitarbeiternr']; ?>">abbrechen</button>
 				</div>
 			</div>
 		</form>
@@ -39,18 +39,16 @@
 		}
 
 		if(isset($_POST['edited'])) {
-			$msg = '';
-			$err = false;
-			if($_POST['geburtsdatum'] == '') {
-				$msg = "date must not be empty";
-				$err = true;
-			} else {
-				try {
-					editWorker($_POST['mitarbeiternr'], $_POST['vorname'], $_POST['nachname'], $_POST['geburtsdatum']);
-					$msg = "saved";
-				} catch(mysqli_sql_exception $exc) {
+			require_once './../common/functions.php';
+			$msg = verify(FULL_WORKER_ARGS);
+			$err = $msg !== "";
+			
+			if($msg === "") {
+				if(editWorker($_POST['mitarbeiternr'], $_POST['vorname'], $_POST['nachname'], $_POST['geburtsdatum'])) {
+					$msg = 'Mitarbeiter geändert';
+				} else {
+					$msg = "Ein Fehler is aufgetreten";
 					$err = true;
-					$msg = "an error occured: ".$exc->getMessage();
 				}
 			}
 			?>
