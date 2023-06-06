@@ -16,17 +16,19 @@
 			</div>
 		</div>
 		<div class="dropdown">
-			Werkzeuglieferanten
-			<div class="dropdownContent">
-				<a href="/werkzeugausleihe/workers/workers.php">Alle Werkzeuglieferanten</a>
-				<a href="/werkzeugausleihe/workers/workers.php">Werkzeuglieferanten erfassen</a>
-			</div>
-		</div>
-		<div class="dropdown">
 			Werkzeuge
 			<div class="dropdownContent">
 				<a href="/werkzeugausleihe/tools/all.php">Alle Werkzeuge</a>
 				<a href="/werkzeugausleihe/tools/create.php">Werkzeug erfassen</a>
+			</div>
+		</div>
+		<div class="dropdown">
+			Anderes
+			<div class="dropdownContent">
+				<a href="/werkzeugausleihe/lending/suppliers/all.php">Alle Werkzeuglieferanten</a>
+				<a href="/werkzeugausleihe/lending/suppliers/create.php">Werkzeuglieferanten erfassen</a>
+				<a href="/werkzeugausleihe/lending/tools/all.php">Alle Werkzeugausleihen</a>
+				<a href="/werkzeugausleihe/lending/tools/create.php">Werkzeugausleihe erfassen</a>
 			</div>
 		</div>
 	</div>
@@ -120,5 +122,11 @@ h1 {
 
 .dropdown:hover .dropdownContent {
   display: block;
+}
+
+@media screen and (min-width: 950px) {
+  .dropdown:last-child:hover {
+    border-bottom-right-radius: 0px;
+  }
 }
 </style>
