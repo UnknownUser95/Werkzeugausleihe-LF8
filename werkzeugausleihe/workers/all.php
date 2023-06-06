@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>Workers</title>
+<title>Mitarbeiter</title>
 <link rel="stylesheet" type="text/css" href="./../common/all.css">
 </head>
 <body>
@@ -43,7 +43,7 @@
 			$msg = verify(FULL_WORKER_ARGS);
 			$err = $msg !== "";
 			
-			if($msg === "") {
+			if(!$err) {
 				if(editWorker($_POST['mitarbeiternr'], $_POST['vorname'], $_POST['nachname'], $_POST['geburtsdatum'])) {
 					$msg = 'Mitarbeiter geändert';
 				} else {
@@ -81,7 +81,7 @@
 					<div>Vorname</div>
 					<div>Nachname</div>
 					<div>Geburtsdatum</div>
-					<div>actions</div>
+					<div>Aktionen</div>
 				</div>
 			<?php
 			foreach(getAllWorkers() as $worker) {

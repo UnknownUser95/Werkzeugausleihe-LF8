@@ -10,34 +10,38 @@
 	<main>
 		<?php
 		require_once './../common/functions.php';
-		require_once './../db/workers.php';
-		setIfNotDefined(WORKER_ARGS);
+		require_once './../db/suppliers.php';
+		setIfNotDefined(SUPPLIER_ARGS);
 		?>
 		<form method="post">
 			<div class="editor">
 				<div>
-					<span>Vorname:</span>
-					<input type="text" name="vorname" value="<?php echo $_POST['vorname']; ?>" />
+					<span>Firma:</span>
+					<input type="text" name="firma" value="<?php echo $_POST['firma']; ?>" />
 				</div>
 				<div>
-					<span>Nachname:</span>
-					<input type="text" name="nachname" value="<?php echo $_POST['nachname']; ?>" />
+					<span>Name:</span>
+					<input type="text" name="ansprechpartnerName" value="<?php echo $_POST['ansprechpartnerName']; ?>" />
 				</div>
 				<div>
-					<span>Geburtsdatum:</span>
-					<input type="date" name="geburtsdatum" value="<?php echo $_POST['geburtsdatum']; ?>" />
+					<span>Email:</span>
+					<input type="text" name="ansprechpartnerEmail" value="<?php echo $_POST['ansprechpartnerEmail']; ?>" />
+				</div>
+				<div>
+					<span>Telefon:</span>
+					<input type="text" name="ansprechpartnerTelefon" value="<?php echo $_POST['ansprechpartnerTelefon']; ?>" />
 				</div>
 				<button id="save-button" type="submit" name="save" value="save">save</button>
 			</div>
 		</form>
 		<?php
 		if($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['save'])) {
-			$msg = verify(WORKER_ARGS);
+			$msg = verify(SUPPLIER_ARGS);
 			$err = $msg !== "";
 			
 			if($msg === "") {
-				if(createWorker($_POST['vorname'], $_POST['nachname'], $_POST['geburtsdatum'])) {
-					$msg = 'Mitarbeiter erstellt';
+				if(createSupplier($_POST['firma'], $_POST['ansprechpartnerName'], $_POST['ansprechpartnerEmail'], $_POST['ansprechpartnerTelefon'])) {
+					$msg = 'Lieferant erstellt';
 				} else {
 					$msg = "Ein Fehler is aufgetreten";
 					$err = true;

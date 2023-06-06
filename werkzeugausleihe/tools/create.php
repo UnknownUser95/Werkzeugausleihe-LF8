@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>Mitarbeiter erstellen</title>
+<title>Werkzeug erstellen</title>
 <link rel="stylesheet" type="text/css" href="./../common/create.css">
 </head>
 <body>
@@ -10,34 +10,30 @@
 	<main>
 		<?php
 		require_once './../common/functions.php';
-		require_once './../db/workers.php';
-		setIfNotDefined(WORKER_ARGS);
+		require_once './../db/tools.php';
+		setIfNotDefined(TOOL_ARGS);
 		?>
 		<form method="post">
 			<div class="editor">
 				<div>
-					<span>Vorname:</span>
-					<input type="text" name="vorname" value="<?php echo $_POST['vorname']; ?>" />
+					<span>Bezeichnung:</span>
+					<input type="text" name="bezeichnung" value="<?php echo $_POST['bezeichnung']; ?>" />
 				</div>
 				<div>
-					<span>Nachname:</span>
-					<input type="text" name="nachname" value="<?php echo $_POST['nachname']; ?>" />
-				</div>
-				<div>
-					<span>Geburtsdatum:</span>
-					<input type="date" name="geburtsdatum" value="<?php echo $_POST['geburtsdatum']; ?>" />
+					<span>Beschreibung:</span>
+					<input type="text" name="beschreibung" value="<?php echo $_POST['beschreibung']; ?>" />
 				</div>
 				<button id="save-button" type="submit" name="save" value="save">save</button>
 			</div>
 		</form>
 		<?php
 		if($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['save'])) {
-			$msg = verify(WORKER_ARGS);
+			$msg = verify(TOOL_ARGS);
 			$err = $msg !== "";
 			
 			if($msg === "") {
-				if(createWorker($_POST['vorname'], $_POST['nachname'], $_POST['geburtsdatum'])) {
-					$msg = 'Mitarbeiter erstellt';
+				if(createTool($_POST['bezeichnung'], $_POST['beschreibung'])) {
+					$msg = 'Werkzeug erstellt';
 				} else {
 					$msg = "Ein Fehler is aufgetreten";
 					$err = true;

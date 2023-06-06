@@ -1,13 +1,11 @@
 <?php
-define("WORKER_ARGS", ["vorname", "nachname", "geburtsdatum"]);
-define("FULL_WORKER_ARGS", ["mitarbeiternr", "vorname", "nachname", "geburtsdatum"]);
 
 function verify(array $postargs): string {
 	$msg = '';
 	$invalidKeys = array();
 	
 	function checkIfEmpty($key, $arr) {
-		if($_POST[$key] === '') {
+		if(!isset($_POST[$key])) {
 			$arr[] = $key;
 		}
 		return $arr;

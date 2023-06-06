@@ -2,6 +2,9 @@
 session_start();
 require_once 'connection.php';
 
+define("WORKER_ARGS", ["vorname", "nachname", "geburtsdatum"]);
+define("FULL_WORKER_ARGS", ["mitarbeiternr", "vorname", "nachname", "geburtsdatum"]);
+
 function deleteWorker($id): bool {
 	$conn = $_SESSION[CON];
 	try {
