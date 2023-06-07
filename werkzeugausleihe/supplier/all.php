@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>Mitarbeiter</title>
+<title>Lieferanten</title>
 <link rel="stylesheet" type="text/css" href="./../common/all.css">
 </head>
 <body>
@@ -16,22 +16,22 @@
 			?>
 		<form method="post">
 			<div class="editor">
-				<input type="hidden" name="lieferantennr" value="<?php echo $supplier['lieferantennr']; ?>" />
+				<input required type="hidden" name="lieferantennr" value="<?php echo $supplier['lieferantennr']; ?>" />
 				<div>
 					<span>Firma:</span>
-					<input type="text" name="firma" value="<?php echo $supplier['firma']; ?>" />
+					<input required type="text" name="firma" value="<?php echo $supplier['firma']; ?>" />
 				</div>
 				<div>
 					<span>Name:</span>
-					<input type="text" name="ansprechpartnerName" value="<?php echo $supplier['ansprechpartnerName']; ?>" />
+					<input required type="text" name="ansprechpartnerName" value="<?php echo $supplier['ansprechpartnerName']; ?>" />
 				</div>
 				<div>
 					<span>Email:</span>
-					<input type="text" name="ansprechpartnerEmail" value="<?php echo $supplier['ansprechpartnerEmail']; ?>" />
+					<input required type="text" name="ansprechpartnerEmail" value="<?php echo $supplier['ansprechpartnerEmail']; ?>" />
 				</div>
 				<div>
 					<span>Telefon:</span>
-					<input type="text" name="ansprechpartnerTelefon" value="<?php echo $supplier['ansprechpartnerTelefon']; ?>" />
+					<input required type="text" name="ansprechpartnerTelefon" value="<?php echo $supplier['ansprechpartnerTelefon']; ?>" />
 				</div>
 				<div id="buttons">
 					<button type="submit" name="edited" value="<?php echo $supplier['lieferantennr']; ?>">speichern</button>

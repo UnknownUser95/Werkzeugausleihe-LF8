@@ -1,9 +1,9 @@
 <?php
 session_start();
-require_once './../../db/connection.php';
+require_once __DIR__.'/../connection.php';
 
-define("LENDER_SUPPLIER_ARGS", ["lieferantenrn", "anschaffungsdatum", "anschaffungspreis", "werkzeugnummer"]);
-define("FULL_LENDER_SUPPLIER_ARGS", ["exemplarnr", "lieferantenrn", "anschaffungsdatum", "anschaffungspreis", "werkzeugnummer"]);
+define("LENDER_SUPPLIER_ARGS", ["lieferantennr", "anschaffungsdatum", "anschaffungspreis", "werkzeugnr"]);
+define("FULL_LENDER_SUPPLIER_ARGS", ["exemplarnr", "lieferantennr", "anschaffungsdatum", "anschaffungspreis", "werkzeugnr"]);
 
 function deleteLenderSupplier($id): bool {
 	$conn = $_SESSION[CON];
@@ -32,7 +32,7 @@ function getLenderSupplierByID(int $id): array {
 	return $conn->query("SELECT * FROM werkzeuglieferant WHERE exemplarnr = {$id}")->fetch_assoc();
 }
 
-function editLenderSupplier(int $id, int $lieferantennr, string $anschaffungsDatum, float $anschaffungsPreis, int $werkzeugnr): bool {
+function editLenderSupplier(int $id, int $lieferantennr, string $anschaffungsDatum, int $anschaffungsPreis, int $werkzeugnr): bool {
 	$conn = $_SESSION[CON];
 	$anschaffungsDatum = $conn->real_escape_string($anschaffungsDatum);
 	try {
@@ -47,9 +47,10 @@ function createLenderSupplier(int $lieferantennr, string $anschaffungsDatum, flo
 	$conn = $_SESSION[CON];
 	$anschaffungsDatum = $conn->real_escape_string($anschaffungsDatum);
 	try {
-		$conn->query("INSERT INTO werkzeuglieferant (lieferantennr, anschaffungsdatum, anschaffungspreis, werkzeugnr') VALUES ({$lieferantennr}, {$anschaffungsDatum}, {$anschaffungsPreis}, {$werkzeugnr})");
+		$conn->query("INSERT INTO werkzeuglieferant (lieferantennr, anschaffungsdatum, anschaffungspreis, werkzeugnr) VALUES ({$lieferantennr}, '{$anschaffungsDatum}', {$anschaffungsPreis}, {$werkzeugnr})");
 		return true;
 	} catch (mysqli_sql_exception $exc) {
+		echo $exc;
 		return false;
 	}
 }

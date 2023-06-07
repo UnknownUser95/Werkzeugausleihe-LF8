@@ -19,11 +19,11 @@
 				<input type="hidden" name="werkzeugnr" value="<?php echo $tool['werkzeugnr']; ?>" />
 				<div>
 					<span>Bezeichnung:</span>
-					<input type="text" name="bezeichnung" value="<?php echo $tool['bezeichnung']; ?>" />
+					<input required type="text" name="bezeichnung" value="<?php echo $tool['bezeichnung']; ?>" />
 				</div>
 				<div>
 					<span>Beschreibung:</span>
-					<input type="text" name="beschreibung" value="<?php echo $tool['beschreibung']; ?>" />
+					<input required type="text" name="beschreibung" value="<?php echo $tool['beschreibung']; ?>" />
 				</div>
 				<div id="buttons">
 					<button type="submit" name="edited" value="<?php echo $tool['werkzeugnr']; ?>">speichern</button>

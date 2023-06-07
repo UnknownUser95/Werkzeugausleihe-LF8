@@ -11,37 +11,47 @@
 		<?php
 		require_once './../../common/functions.php';
 		require_once './../../db/lending/suppliers.php';
+		require_once './../../db/suppliers.php';
+		require_once './../../db/tools.php';
 		setIfNotDefined(LENDER_SUPPLIER_ARGS);
 		?>
 		<form method="post">
 			<div class="editor">
 				<div>
-					<span>Firma:</span>
-					<input type="text" name="firma" value="<?php echo $_POST['firma']; ?>" />
+					<span>Lieferant:</span>
+					<select required name="lieferantennr">
+					<?php foreach(getAllSuppliers() as $baseSupplier) {?>
+						<option value="<?php echo $baseSupplier['lieferantennr'];?>" <?php if($baseSupplier['lieferantennr'] === $_POST['lieferantennr']) { echo 'selected="selected"'; } ?>><?php echo $baseSupplier['firma']; ?></option>
+					<?php } ?>
+					</select>
 				</div>
 				<div>
-					<span>Name:</span>
-					<input type="text" name="ansprechpartnerName" value="<?php echo $_POST['ansprechpartnerName']; ?>" />
+					<span>Werkzeug:</span>
+					<select required name="werkzeugnr">
+					<?php foreach(getAllTools() as $baseTool) {?>
+						<option value="<?php echo $baseTool['werkzeugnr'];?>" <?php if($baseTool['werkzeugnr'] === $_POST['werkzeugnr']) { echo 'selected="selected"'; } ?>><?php echo $baseTool['bezeichnung']; ?></option>
+					<?php } ?>
+					</select>
 				</div>
 				<div>
-					<span>Email:</span>
-					<input type="text" name="ansprechpartnerEmail" value="<?php echo $_POST['ansprechpartnerEmail']; ?>" />
+					<span>Datum:</span>
+					<input required type="date" name="anschaffungsdatum" value="<?php echo $_POST['anschaffungsdatum']; ?>" />
 				</div>
 				<div>
-					<span>Telefon:</span>
-					<input type="text" name="ansprechpartnerTelefon" value="<?php echo $_POST['ansprechpartnerTelefon']; ?>" />
+					<span>Preis:</span>
+					<input required type="number" min="0" max="9999999999" name="anschaffungspreis" value="<?php echo $_POST['anschaffungspreis']; ?>" />
 				</div>
 				<button id="save-button" type="submit" name="save" value="save">save</button>
 			</div>
 		</form>
 		<?php
 		if($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['save'])) {
-			$msg = verify(SUPPLIER_ARGS);
+			$msg = verify(LENDER_SUPPLIER_ARGS);
 			$err = $msg !== "";
 			
 			if($msg === "") {
-				if(createSupplier($_POST['firma'], $_POST['ansprechpartnerName'], $_POST['ansprechpartnerEmail'], $_POST['ansprechpartnerTelefon'])) {
-					$msg = 'Lieferant erstellt';
+				if(createLenderSupplier($_POST['lieferantennr'], $_POST['anschaffungsdatum'], $_POST['anschaffungspreis'], $_POST['werkzeugnr'])) {
+					$msg = 'Werkzeuglieferant erstellt';
 				} else {
 					$msg = "Ein Fehler is aufgetreten";
 					$err = true;

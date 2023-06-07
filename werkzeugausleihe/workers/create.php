@@ -17,15 +17,15 @@
 			<div class="editor">
 				<div>
 					<span>Vorname:</span>
-					<input type="text" name="vorname" value="<?php echo $_POST['vorname']; ?>" />
+					<input required type="text" name="vorname" value="<?php echo $_POST['vorname']; ?>" />
 				</div>
 				<div>
 					<span>Nachname:</span>
-					<input type="text" name="nachname" value="<?php echo $_POST['nachname']; ?>" />
+					<input required type="text" name="nachname" value="<?php echo $_POST['nachname']; ?>" />
 				</div>
 				<div>
 					<span>Geburtsdatum:</span>
-					<input type="date" name="geburtsdatum" value="<?php echo $_POST['geburtsdatum']; ?>" />
+					<input required type="date" name="geburtsdatum" value="<?php echo $_POST['geburtsdatum']; ?>" />
 				</div>
 				<button id="save-button" type="submit" name="save" value="save">save</button>
 			</div>

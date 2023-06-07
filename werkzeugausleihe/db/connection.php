@@ -19,8 +19,3 @@ if(!$conn->set_charset("utf8mb4")) {
 
 define("CON", "db_connection");
 $_SESSION[CON] = $conn;
-
-define("DATE_FORMAT", 'Y-m-d');
-function strToDate($str) {
-	return date(DATE_FORMAT, strtotime($str));
-}

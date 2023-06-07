@@ -17,11 +17,11 @@
 			<div class="editor">
 				<div>
 					<span>Bezeichnung:</span>
-					<input type="text" name="bezeichnung" value="<?php echo $_POST['bezeichnung']; ?>" />
+					<input required type="text" name="bezeichnung" value="<?php echo $_POST['bezeichnung']; ?>" />
 				</div>
 				<div>
 					<span>Beschreibung:</span>
-					<input type="text" name="beschreibung" value="<?php echo $_POST['beschreibung']; ?>" />
+					<input required type="text" name="beschreibung" value="<?php echo $_POST['beschreibung']; ?>" />
 				</div>
 				<button id="save-button" type="submit" name="save" value="save">save</button>
 			</div>

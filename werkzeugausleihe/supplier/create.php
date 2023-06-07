@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>Mitarbeiter erstellen</title>
+<title>Lieferant erstellen</title>
 <link rel="stylesheet" type="text/css" href="./../common/create.css">
 </head>
 <body>
@@ -17,19 +17,19 @@
 			<div class="editor">
 				<div>
 					<span>Firma:</span>
-					<input type="text" name="firma" value="<?php echo $_POST['firma']; ?>" />
+					<input required type="text" name="firma" value="<?php echo $_POST['firma']; ?>" />
 				</div>
 				<div>
 					<span>Name:</span>
-					<input type="text" name="ansprechpartnerName" value="<?php echo $_POST['ansprechpartnerName']; ?>" />
+					<input required type="text" name="ansprechpartnerName" value="<?php echo $_POST['ansprechpartnerName']; ?>" />
 				</div>
 				<div>
 					<span>Email:</span>
-					<input type="text" name="ansprechpartnerEmail" value="<?php echo $_POST['ansprechpartnerEmail']; ?>" />
+					<input required type="text" name="ansprechpartnerEmail" value="<?php echo $_POST['ansprechpartnerEmail']; ?>" />
 				</div>
 				<div>
 					<span>Telefon:</span>
-					<input type="text" name="ansprechpartnerTelefon" value="<?php echo $_POST['ansprechpartnerTelefon']; ?>" />
+					<input required type="text" name="ansprechpartnerTelefon" value="<?php echo $_POST['ansprechpartnerTelefon']; ?>" />
 				</div>
 				<button id="save-button" type="submit" name="save" value="save">save</button>
 			</div>

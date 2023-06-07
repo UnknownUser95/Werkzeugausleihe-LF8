@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'connection.php';
+require_once __DIR__.'/connection.php';
 
 define("TOOL_ARGS", ["bezeichnung", "beschreibung"]);
 define("FULL_TOOL_ARGS", ["werkzeugnr", "bezeichnung", "beschreibung"]);

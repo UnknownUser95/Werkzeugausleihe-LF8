@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'connection.php';
+require_once __DIR__.'/connection.php';
 
 define("SUPPLIER_ARGS", ["firma", "ansprechpartnerName", "ansprechpartnerEmail", "ansprechpartnerTelefon"]);
 define("FULL_SUPPLIER_ARGS", ["lieferantennr", "firma", "ansprechpartnerName", "ansprechpartnerEmail", "ansprechpartnerTelefon"]);

@@ -16,18 +16,18 @@
 			?>
 		<form method="post">
 			<div class="editor">
-				<input type="hidden" name="mitarbeiternr" value="<?php echo $worker['mitarbeiternr']; ?>" />
+				<input required type="hidden" name="mitarbeiternr" value="<?php echo $worker['mitarbeiternr']; ?>" />
 				<div>
 					<span>Vorname:</span>
-					<input type="text" name="vorname" value="<?php echo $worker['vorname']; ?>" />
+					<input required type="text" name="vorname" value="<?php echo $worker['vorname']; ?>" />
 				</div>
 				<div>
 					<span>Nachname:</span>
-					<input type="text" name="nachname" value="<?php echo $worker['nachname']; ?>" />
+					<input required type="text" name="nachname" value="<?php echo $worker['nachname']; ?>" />
 				</div>
 				<div>
 					<span>Geburtsdatum:</span>
-					<input type="date" name="geburtsdatum" value="<?php echo $worker['geburtsdatum']; ?>" />
+					<input required type="date" name="geburtsdatum" value="<?php echo $worker['geburtsdatum']; ?>" />
 				</div>
 				<div id="buttons">
 					<button type="submit" name="edited" value="<?php echo $worker['mitarbeiternr']; ?>">speichern</button>

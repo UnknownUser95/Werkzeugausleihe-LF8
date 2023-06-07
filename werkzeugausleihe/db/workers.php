@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'connection.php';
+require_once __DIR__.'/connection.php';
 
 define("WORKER_ARGS", ["vorname", "nachname", "geburtsdatum"]);
 define("FULL_WORKER_ARGS", ["mitarbeiternr", "vorname", "nachname", "geburtsdatum"]);

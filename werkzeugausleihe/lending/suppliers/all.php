@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>Mitarbeiter</title>
+<title>Werkzeuglieferanten</title>
 <link rel="stylesheet" type="text/css" href="./../../common/all.css">
 </head>
 <body>
@@ -10,28 +10,38 @@
 	<main>
 	<?php
 	require_once './../../db/lending/suppliers.php';
+	require_once './../../db/suppliers.php';
+	require_once './../../db/tools.php';
 	if($_SERVER["REQUEST_METHOD"] === "POST") {
 		if(isset($_POST['edit'])) {
-			$supplier = getSupplierByID($_POST["edit"]);
+			$supplier = getLenderSupplierByID($_POST["edit"]);
 			?>
 		<form method="post">
 			<div class="editor">
-				<input type="hidden" name="lieferantennr" value="<?php echo $supplier['lieferantennr']; ?>" />
+				<input type="hidden" name="exemplarnr" value="<?php echo $supplier['exemplarnr']; ?>" />
 				<div>
-					<span>Firma:</span>
-					<input type="text" name="firma" value="<?php echo $supplier['firma']; ?>" />
+					<span>Lieferant:</span>
+					<select required name="lieferantennr">
+					<?php foreach(getAllSuppliers() as $baseSupplier) {?>
+						<option value="<?php echo $baseSupplier['lieferantennr'];?>" <?php if($baseSupplier['lieferantennr'] === $supplier['lieferantennr']) { echo 'selected="selected"'; } ?>><?php echo $baseSupplier['firma']; ?></option>
+					<?php } ?>
+					</select>
 				</div>
 				<div>
-					<span>Name:</span>
-					<input type="text" name="ansprechpartnerName" value="<?php echo $supplier['ansprechpartnerName']; ?>" />
+					<span>Werkzeug:</span>
+					<select required name="werkzeugnr">
+					<?php foreach(getAllTools() as $baseTool) {?>
+						<option value="<?php echo $baseTool['werkzeugnr'];?>" <?php if($baseTool['werkzeugnr'] === $supplier['werkzeugnr']) { echo 'selected="selected"'; } ?>><?php echo $baseTool['bezeichnung']; ?></option>
+					<?php } ?>
+					</select>
 				</div>
 				<div>
-					<span>Email:</span>
-					<input type="text" name="ansprechpartnerEmail" value="<?php echo $supplier['ansprechpartnerEmail']; ?>" />
+					<span>Datum:</span>
+					<input required type="date" name="anschaffungsdatum" value="<?php echo $supplier['anschaffungsdatum']; ?>" />
 				</div>
 				<div>
-					<span>Telefon:</span>
-					<input type="text" name="ansprechpartnerTelefon" value="<?php echo $supplier['ansprechpartnerTelefon']; ?>" />
+					<span>Preis:</span>
+					<input required type="number" min="0" max="9999999999" name="anschaffungspreis" value="<?php echo $supplier['anschaffungspreis']; ?>" />
 				</div>
 				<div id="buttons">
 					<button type="submit" name="edited" value="<?php echo $supplier['lieferantennr']; ?>">speichern</button>
@@ -43,13 +53,13 @@
 		}
 
 		if(isset($_POST['edited'])) {
-			require_once './../common/functions.php';
-			$msg = verify(FULL_SUPPLIER_ARGS);
+			require_once './../../common/functions.php';
+			$msg = verify(FULL_LENDER_SUPPLIER_ARGS);
 			$err = $msg !== "";
 			
 			if(!$err) {
-				if(editSupplier($_POST['lieferantennr'], $_POST['firma'], $_POST['ansprechpartnerName'], $_POST['ansprechpartnerEmail'], $_POST['ansprechpartnerTelefon'])) {
-					$msg = 'Lieferant geändert';
+				if(editLenderSupplier($_POST['exemplarnr'], $_POST['lieferantennr'], $_POST['anschaffungsdatum'], $_POST['anschaffungspreis'], $_POST['werkzeugnr'])) {
+					$msg = 'Werkzeuglieferant geändert';
 				} else {
 					$msg = "Ein Fehler is aufgetreten";
 					$err = true;
@@ -66,12 +76,12 @@
 		}
 
 		if(isset($_POST['delete'])) {
-			deleteSupplier($_POST['delete']);
+			deleteLenderSupplier($_POST['delete']);
 			?>
 			<form method="post">
 				<div class="result-message good-message">
 					<button type="submit">hide</button>
-					Lieferant (<?php echo $_POST['delete']; ?>) wurde gelöscht
+					Werkzeuglieferant (<?php echo $_POST['delete']; ?>) wurde gelöscht
 				</div>
 			</form>
 			<?php
@@ -86,22 +96,24 @@
 					<div>Datum</div>
 					<div>Preis</div>
 					<div>Werkzeug</div>
+					<div>Aktionen</div>
 				</div>
 			<?php
 			foreach(getAllLenderSuppliers() as $supplier) {
 				?>
 			<div class="table-row">
-					<div><?php echo getSupplierNameFromID($supplier['lieferantennr']); ?></div>
-					<div><?php echo $supplier['anschaffungsdatum']; ?></div>
-					<div><?php echo $supplier['anschaffungspreis']; ?></div>
-					<div><?php echo getToolNameFromID($supplier['werkzeugnr']); ?></div>
-					<div class="no-border actions">
-						<div class="actions-grid">
-							<button type="submit" name="delete" value="<?php echo $supplier["exemplarnr"]; ?>">delete</button>
-							<button type="submit" name="edit" value="<?php echo $supplier["exemplarnr"]; ?>">edit</button>
-						</div>
+				<div><?php echo $supplier['exemplarnr']; ?></div>
+				<div><?php echo getSupplierNameFromID($supplier['lieferantennr']); ?></div>
+				<div><?php echo $supplier['anschaffungsdatum']; ?></div>
+				<div><?php echo $supplier['anschaffungspreis']; ?></div>
+				<div><?php echo getToolNameFromID($supplier['werkzeugnr']); ?></div>
+				<div class="no-border actions">
+					<div class="actions-grid">
+						<button type="submit" name="delete" value="<?php echo $supplier["exemplarnr"]; ?>">delete</button>
+						<button type="submit" name="edit" value="<?php echo $supplier["exemplarnr"]; ?>">edit</button>
 					</div>
 				</div>
+			</div>
 		<?php } ?>
 		</div>
 		</form>
