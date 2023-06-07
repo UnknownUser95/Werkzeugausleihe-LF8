@@ -12,30 +12,30 @@
 	require_once './../db/suppliers.php';
 	if($_SERVER["REQUEST_METHOD"] === "POST") {
 		if(isset($_POST['edit'])) {
-			$supplier = getSupplierByID($_POST["edit"]);
+			$toolLending = getSupplierByID($_POST["edit"]);
 			?>
 		<form method="post">
 			<div class="editor">
-				<input required type="hidden" name="lieferantennr" value="<?php echo $supplier['lieferantennr']; ?>" />
+				<input required type="hidden" name="lieferantennr" value="<?php echo $toolLending['lieferantennr']; ?>" />
 				<div>
 					<span>Firma:</span>
-					<input required type="text" name="firma" value="<?php echo $supplier['firma']; ?>" />
+					<input required type="text" name="firma" value="<?php echo $toolLending['firma']; ?>" />
 				</div>
 				<div>
 					<span>Name:</span>
-					<input required type="text" name="ansprechpartnerName" value="<?php echo $supplier['ansprechpartnerName']; ?>" />
+					<input required type="text" name="ansprechpartnerName" value="<?php echo $toolLending['ansprechpartnerName']; ?>" />
 				</div>
 				<div>
 					<span>Email:</span>
-					<input required type="text" name="ansprechpartnerEmail" value="<?php echo $supplier['ansprechpartnerEmail']; ?>" />
+					<input required type="text" name="ansprechpartnerEmail" value="<?php echo $toolLending['ansprechpartnerEmail']; ?>" />
 				</div>
 				<div>
 					<span>Telefon:</span>
-					<input required type="text" name="ansprechpartnerTelefon" value="<?php echo $supplier['ansprechpartnerTelefon']; ?>" />
+					<input required type="text" name="ansprechpartnerTelefon" value="<?php echo $toolLending['ansprechpartnerTelefon']; ?>" />
 				</div>
 				<div id="buttons">
-					<button type="submit" name="edited" value="<?php echo $supplier['lieferantennr']; ?>">speichern</button>
-					<button type="submit" name="cancel" value="<?php echo $supplier['lieferantennr']; ?>">abbrechen</button>
+					<button type="submit" name="edited" value="<?php echo $toolLending['lieferantennr']; ?>">speichern</button>
+					<button type="submit" name="cancel" value="<?php echo $toolLending['lieferantennr']; ?>">abbrechen</button>
 				</div>
 			</div>
 		</form>
@@ -89,18 +89,18 @@
 					<div>Aktionen</div>
 				</div>
 			<?php
-			foreach(getAllSuppliers() as $supplier) {
+			foreach(getAllSuppliers() as $toolLending) {
 				?>
 			<div class="table-row">
-					<div><?php echo $supplier['lieferantennr']; ?></div>
-					<div><?php echo $supplier['firma']; ?></div>
-					<div><?php echo $supplier['ansprechpartnerName']; ?></div>
-					<div><?php echo $supplier['ansprechpartnerEmail']; ?></div>
-					<div><?php echo $supplier['ansprechpartnerTelefon']; ?></div>
+					<div><?php echo $toolLending['lieferantennr']; ?></div>
+					<div><?php echo $toolLending['firma']; ?></div>
+					<div><?php echo $toolLending['ansprechpartnerName']; ?></div>
+					<div><?php echo $toolLending['ansprechpartnerEmail']; ?></div>
+					<div><?php echo $toolLending['ansprechpartnerTelefon']; ?></div>
 					<div class="no-border actions">
 						<div class="actions-grid">
-							<button type="submit" name="delete" value="<?php echo $supplier["lieferantennr"]; ?>">delete</button>
-							<button type="submit" name="edit" value="<?php echo $supplier["lieferantennr"]; ?>">edit</button>
+							<button type="submit" name="delete" value="<?php echo $toolLending["lieferantennr"]; ?>">delete</button>
+							<button type="submit" name="edit" value="<?php echo $toolLending["lieferantennr"]; ?>">edit</button>
 						</div>
 					</div>
 				</div>

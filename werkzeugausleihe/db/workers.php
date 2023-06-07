@@ -5,10 +5,10 @@ require_once __DIR__.'/connection.php';
 define("WORKER_ARGS", ["vorname", "nachname", "geburtsdatum"]);
 define("FULL_WORKER_ARGS", ["mitarbeiternr", "vorname", "nachname", "geburtsdatum"]);
 
-function deleteWorker($id): bool {
+function deleteWorker(int $id): bool {
 	$conn = $_SESSION[CON];
 	try {
-		$conn->query("DELETE FROM mitarbeiter where mitarbeiternr = {$id}");
+		$conn->query("DELETE FROM mitarbeiter WHERE mitarbeiternr = {$id}");
 		return true;
 	} catch (mysqli_sql_exception $exc) {
 		return false;
@@ -60,4 +60,13 @@ function createWorker(string $vorname, string $nachname, string $geburtsdatum): 
 	} catch (mysqli_sql_exception $exc) {
 		return false;
 	}
+}
+
+function getWorkerNameFromID(int $id) {
+	$worker = getWorkerByID($id);
+	return getWorkerNameFromResult($worker);
+}
+
+function getWorkerNameFromResult($worker) {
+	return "{$worker['nachname']}, {$worker['vorname']}";
 }

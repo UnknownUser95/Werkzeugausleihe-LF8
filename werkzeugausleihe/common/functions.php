@@ -1,6 +1,6 @@
 <?php
 
-function verify(array $postargs): string {
+function verify(array $postargs, array $exceptions = []): string {
 	$msg = '';
 	$invalidKeys = array();
 	
@@ -12,7 +12,9 @@ function verify(array $postargs): string {
 	}
 	
 	foreach($postargs as $arg) {
-		$invalidKeys = checkIfEmpty($arg, $invalidKeys);
+		if(!in_array($arg, $exceptions)) {
+			$invalidKeys = checkIfEmpty($arg, $invalidKeys);
+		}
 	}
 	
 	if(sizeof($invalidKeys) !== 0) {
@@ -37,3 +39,20 @@ function setIfNotDefined(array $args, $fallback = ''): void {
 		}
 	}
 }
+
+// function toPostArgs(array $arr) {
+// 	foreach($arr as $key => $val) {
+// 		$_POST[$key] = $val;
+// 	}
+// }
+
+// function setPostVars(array $postKeys, $postVals): bool {
+// 	if(sizeof($postKeys) !== sizeof($postVals)) {
+// 		return false;
+// 	}
+	
+// 	for($i = 0; $i < sizeof($postKeys); $i++) {
+// 		$_POST[$postKeys[$i]] = $postVals[$i];
+// 	}
+// 	return true;
+// }

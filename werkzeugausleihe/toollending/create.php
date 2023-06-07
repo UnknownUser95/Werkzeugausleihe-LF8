@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <title>Mitarbeiter erstellen</title>
-<link rel="stylesheet" type="text/css" href="./../../common/create.css">
+<link rel="stylesheet" type="text/css" href="./../common/create.css">
 </head>
 <body>
-	<?php require_once './../../header.html'; ?>
+	<?php require_once './../header.html'; ?>
 	<main>
 		<?php
-		require_once './../../common/functions.php';
-		require_once './../../db/lending/suppliers.php';
-		require_once './../../db/suppliers.php';
-		require_once './../../db/tools.php';
-		setIfNotDefined(LENDER_SUPPLIER_ARGS);
+		require_once './../common/functions.php';
+		require_once './../db/toolsuppliers.php';
+		require_once './../db/suppliers.php';
+		require_once './../db/tools.php';
+		setIfNotDefined(TOOL_SUPPLIER_ARGS);
 		?>
 		<form method="post">
 			<div class="editor">
@@ -46,11 +46,11 @@
 		</form>
 		<?php
 		if($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['save'])) {
-			$msg = verify(LENDER_SUPPLIER_ARGS);
+			$msg = verify(TOOL_SUPPLIER_ARGS);
 			$err = $msg !== "";
 			
 			if($msg === "") {
-				if(createLenderSupplier($_POST['lieferantennr'], $_POST['anschaffungsdatum'], $_POST['anschaffungspreis'], $_POST['werkzeugnr'])) {
+				if(createToolSupplier($_POST['lieferantennr'], $_POST['anschaffungsdatum'], $_POST['anschaffungspreis'], $_POST['werkzeugnr'])) {
 					$msg = 'Werkzeuglieferant erstellt';
 				} else {
 					$msg = "Ein Fehler is aufgetreten";

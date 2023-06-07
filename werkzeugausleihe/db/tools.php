@@ -5,10 +5,10 @@ require_once __DIR__.'/connection.php';
 define("TOOL_ARGS", ["bezeichnung", "beschreibung"]);
 define("FULL_TOOL_ARGS", ["werkzeugnr", "bezeichnung", "beschreibung"]);
 
-function deleteTool($id): bool {
+function deleteTool(int $id): bool {
 	$conn = $_SESSION[CON];
 	try {
-		$conn->query("DELETE FROM werkzeug where werkzeugnr = {$id}");
+		$conn->query("DELETE FROM werkzeug WHERE werkzeugnr = {$id}");
 		return true;
 	} catch (mysqli_sql_exception $exc) {
 		return false;

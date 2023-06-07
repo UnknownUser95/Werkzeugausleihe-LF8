@@ -1,21 +1,21 @@
 <?php
 session_start();
-require_once __DIR__.'/../connection.php';
+require_once __DIR__.'/connection.php';
 
-define("LENDER_SUPPLIER_ARGS", ["lieferantennr", "anschaffungsdatum", "anschaffungspreis", "werkzeugnr"]);
-define("FULL_LENDER_SUPPLIER_ARGS", ["exemplarnr", "lieferantennr", "anschaffungsdatum", "anschaffungspreis", "werkzeugnr"]);
+define("TOOL_SUPPLIER_ARGS", ["lieferantennr", "anschaffungsdatum", "anschaffungspreis", "werkzeugnr"]);
+define("FULL_TOOL_SUPPLIER_ARGS", ["exemplarnr", "lieferantennr", "anschaffungsdatum", "anschaffungspreis", "werkzeugnr"]);
 
-function deleteLenderSupplier($id): bool {
+function deleteToolSupplier(int $id): bool {
 	$conn = $_SESSION[CON];
 	try {
-		$conn->query("DELETE FROM werkzeuglieferant where exemplarnr = {$id}");
+		$conn->query("DELETE FROM werkzeuglieferant WHERE exemplarnr = {$id}");
 		return true;
 	} catch (mysqli_sql_exception $exc) {
 		return false;
 	}
 }
 
-function getAllLenderSuppliers(): array {
+function getAllToolSuppliers(): array {
 	$conn = $_SESSION[CON];
 	$result = $conn->query("SELECT * FROM werkzeuglieferant");
 	
@@ -27,12 +27,12 @@ function getAllLenderSuppliers(): array {
 	return $workers;
 }
 
-function getLenderSupplierByID(int $id): array {
+function getToolSupplierByID(int $id): array {
 	$conn = $_SESSION[CON];
 	return $conn->query("SELECT * FROM werkzeuglieferant WHERE exemplarnr = {$id}")->fetch_assoc();
 }
 
-function editLenderSupplier(int $id, int $lieferantennr, string $anschaffungsDatum, int $anschaffungsPreis, int $werkzeugnr): bool {
+function editToolSupplier(int $id, int $lieferantennr, string $anschaffungsDatum, int $anschaffungsPreis, int $werkzeugnr): bool {
 	$conn = $_SESSION[CON];
 	$anschaffungsDatum = $conn->real_escape_string($anschaffungsDatum);
 	try {
@@ -43,24 +43,32 @@ function editLenderSupplier(int $id, int $lieferantennr, string $anschaffungsDat
 	}
 }
 
-function createLenderSupplier(int $lieferantennr, string $anschaffungsDatum, float $anschaffungsPreis, int $werkzeugnr): bool {
+function createToolSupplier(int $lieferantennr, string $anschaffungsDatum, float $anschaffungsPreis, int $werkzeugnr): bool {
 	$conn = $_SESSION[CON];
 	$anschaffungsDatum = $conn->real_escape_string($anschaffungsDatum);
 	try {
 		$conn->query("INSERT INTO werkzeuglieferant (lieferantennr, anschaffungsdatum, anschaffungspreis, werkzeugnr) VALUES ({$lieferantennr}, '{$anschaffungsDatum}', {$anschaffungsPreis}, {$werkzeugnr})");
 		return true;
 	} catch (mysqli_sql_exception $exc) {
-		echo $exc;
 		return false;
 	}
 }
 
-function getSupplierNameFromID(int $id) {
-	require_once './../../db/suppliers.php';
+function formatToolSupplier(int $id): string {
+	$supplier = getToolSupplierByID($id);
+	return formatToolSupplierResult($supplier);
+}
+
+function formatToolSupplierResult($supplier): string {
+	return getToolNameFromID($supplier['werkzeugnr'])." ({$supplier['anschaffungsdatum']}@{$supplier['anschaffungspreis']})";
+}
+
+function getSupplierNameFromID(int $id): string {
+	require_once __DIR__.'/suppliers.php';
 	return getSupplierByID($id)['firma'];
 }
 
-function getToolNameFromID(int $id) {
-	require_once './../../db/tools.php';
+function getToolNameFromID(int $id): string {
+	require_once __DIR__.'/tools.php';
 	return getToolByID($id)['bezeichnung'];
 }

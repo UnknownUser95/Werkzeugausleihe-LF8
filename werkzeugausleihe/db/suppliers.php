@@ -5,10 +5,10 @@ require_once __DIR__.'/connection.php';
 define("SUPPLIER_ARGS", ["firma", "ansprechpartnerName", "ansprechpartnerEmail", "ansprechpartnerTelefon"]);
 define("FULL_SUPPLIER_ARGS", ["lieferantennr", "firma", "ansprechpartnerName", "ansprechpartnerEmail", "ansprechpartnerTelefon"]);
 
-function deleteSupplier($id): bool {
+function deleteSupplier(int $id): bool {
 	$conn = $_SESSION[CON];
 	try {
-		$conn->query("DELETE FROM lieferant where lieferantennr = {$id}");
+		$conn->query("DELETE FROM lieferant WHERE lieferantennr = {$id}");
 		return true;
 	} catch (mysqli_sql_exception $exc) {
 		return false;
