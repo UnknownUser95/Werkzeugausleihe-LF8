@@ -82,13 +82,22 @@
 		}
 
 		if(isset($_POST['delete'])) {
-			deleteToolSupplier($_POST['delete']);
-			// TODO:
+			$data = explode("|", $_POST['delete']);
+			$toolLending = getToolLendingByID($data[0], $data[1], $data[2]);
+			
+			$err = deleteToolLending($toolLending['exemplarnr'], $toolLending['mitarbeiternr'], $toolLending['ausleihdatum']);
+			
+			$msg = "Ein Fehler ist aufgetreten";
+			if(!$err) {
+				$name = getWorkerNameFromID($toolLending[]);
+				$msg = "Werkzeugausleihe ({$toolLending['exemplarnr']}|{$name}|{$toolLending['ausleihdatum']}) gelöscht";
+			}
+			
 			?>
 			<form method="post">
-				<div class="result-message good-message">
+				<div class="result-message <?php echo $err ? "good-message" : "error-message" ?>">
 					<button type="submit">hide</button>
-					Werkzeuglieferant (<?php echo $_POST['delete']; ?>) wurde gelöscht
+					<?php echo $msg; ?>
 				</div>
 			</form>
 			<?php
@@ -100,9 +109,9 @@
 				<div class="table-row table-header-row">
 					<div><a class="header-link" href="/werkzeugausleihe/toolsuppliers/all.php">Exemplarnr</a></div>
 					<div><a class="header-link" href="/werkzeugausleihe/workers/all.php">Mitarbeiter</a></div>
-					<div>Ausleihe</div>
+					<div>Ausleihdatum</div>
 					<div>Rückgabe</div>
-					<div>Rückgegeben</div>
+					<div>Rückgegeben Am</div>
 					<div>Aktionen</div>
 				</div>
 			<?php

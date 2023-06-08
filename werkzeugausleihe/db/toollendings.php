@@ -3,6 +3,7 @@ session_start();
 require_once __DIR__.'/connection.php';
 
 define("TOOL_LENDING_ARGS", ["exemplarnr", "mitarbeiternr", "ausleihdatum"]);
+define("SHOULD_BE_SET_TOOL_LENDING_ARGS", ["exemplarnr", "mitarbeiternr", "ausleihdatum", "rueckgabedatum"]);
 define("FULL_TOOL_LENDING_ARGS", ["exemplarnr", "mitarbeiternr", "ausleihdatum", "rueckgabedatum", "zurueckgegebenam"]);
 define("TOOL_LENDING_NULLABLE_ARGS", ["rueckgabedatum", "zurueckgegebenam"]);
 
@@ -20,12 +21,12 @@ function getAllToolLendings(): array {
 	$conn = $_SESSION[CON];
 	$result = $conn->query("SELECT * FROM werkzeugausleihe");
 	
-	$workers = [];
+	$lending = [];
 	while($row = $result->fetch_assoc()) {
-		$workers[] = $row;
+		$lending[] = $row;
 	}
 	
-	return $workers;
+	return $lending;
 }
 
 function getToolLendingByID(int $exemplarnr, int $mitarbeiternr, string $ausleihdatum): array {
@@ -35,8 +36,12 @@ function getToolLendingByID(int $exemplarnr, int $mitarbeiternr, string $ausleih
 
 function createToolLending(int $exemplarnr, int $mitarbeiternr, string $ausleihdatum, string $rueckgabedatum): bool {
 	$conn = $_SESSION[CON];
+	
+	$ausleihdatum = _nullOrDate($ausleihdatum);
+	$rueckgabedatum = _nullOrDate($rueckgabedatum);
+	
 	try {
-		$conn->query("INSERT INTO werkzeugausleihe (exemplarnr, mitarbeiternr, ausleihdatum, rueckgabedatum) VALUES ({$exemplarnr}, '{$mitarbeiternr}', {$ausleihdatum}, {$rueckgabedatum})");
+		$conn->query("INSERT INTO werkzeugausleihe (exemplarnr, mitarbeiternr, ausleihdatum, rueckgabedatum) VALUES ({$exemplarnr}, {$mitarbeiternr}, {$ausleihdatum}, {$rueckgabedatum})");
 		return true;
 	} catch (mysqli_sql_exception $exc) {
 		echo $exc;
@@ -85,6 +90,19 @@ function setReturnByDate(int $exemplarnr, int $mitarbeiternr, string $ausleihdat
 		echo $exc;
 		return false;
 	}
+}
+
+function getUnavailableTools(): array {
+	$conn = $_SESSION[CON];
+	
+	$result = $conn->query("SELECT exemplarnr FROM werkzeugausleihe WHERE zurueckgegebenam IS NULL");
+	
+	$tools = [];
+	while($row = $result->fetch_assoc()) {
+		$tools[] = $row['exemplarnr'];
+	}
+	
+	return $tools;
 }
 
 function _nullOrDate($date) {

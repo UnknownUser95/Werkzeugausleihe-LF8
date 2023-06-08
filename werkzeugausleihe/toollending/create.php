@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>Mitarbeiter erstellen</title>
+<title>Werkzeugausleihe erstellen</title>
 <link rel="stylesheet" type="text/css" href="./../common/create.css">
 </head>
 <body>
@@ -10,48 +10,59 @@
 	<main>
 		<?php
 		require_once './../common/functions.php';
+		require_once './../db/toollendings.php';
 		require_once './../db/toolsuppliers.php';
-		require_once './../db/suppliers.php';
-		require_once './../db/tools.php';
-		setIfNotDefined(TOOL_SUPPLIER_ARGS);
+		require_once './../db/workers.php';
+		
+		$unavailableTools = getUnavailableTools();
+		
+		if(!isset($_POST['ausleihdatum'])) {
+			$_POST['ausleihdatum'] = date('Y-m-d', time());
+		}
+		
+		setIfNotDefined(SHOULD_BE_SET_TOOL_LENDING_ARGS);
 		?>
 		<form method="post">
 			<div class="editor">
 				<div>
-					<span>Lieferant:</span>
-					<select required name="lieferantennr">
-					<?php foreach(getAllSuppliers() as $baseSupplier) {?>
-						<option value="<?php echo $baseSupplier['lieferantennr'];?>" <?php if($baseSupplier['lieferantennr'] === $_POST['lieferantennr']) { echo 'selected="selected"'; } ?>><?php echo $baseSupplier['firma']; ?></option>
+					<span>Exemplarnr:</span>
+					<select required name="exemplarnr">
+					<?php foreach(getAllToolSuppliers() as $baseSupplier) {
+						if(in_array($baseSupplier['exemplarnr'], $unavailableTools)) {
+							continue;
+						}
+						?>
+						<option value="<?php echo $baseSupplier['exemplarnr'];?>" <?php if($baseSupplier['exemplarnr'] === $_POST['exemplarnr']) { echo 'selected="selected"'; } ?>><?php echo formatToolSupplierResult($baseSupplier); ?></option>
 					<?php } ?>
 					</select>
 				</div>
 				<div>
-					<span>Werkzeug:</span>
-					<select required name="werkzeugnr">
-					<?php foreach(getAllTools() as $baseTool) {?>
-						<option value="<?php echo $baseTool['werkzeugnr'];?>" <?php if($baseTool['werkzeugnr'] === $_POST['werkzeugnr']) { echo 'selected="selected"'; } ?>><?php echo $baseTool['bezeichnung']; ?></option>
+					<span>Mitarbeiter:</span>
+					<select required name="mitarbeiternr">
+					<?php foreach(getAllWorkers() as $baseWorker) {?>
+						<option value="<?php echo $baseWorker['mitarbeiternr'];?>" <?php if($baseWorker['mitarbeiternr'] === $_POST['mitarbeiternr']) { echo 'selected="selected"'; } ?>><?php echo getWorkerNameFromResult($baseWorker); ?></option>
 					<?php } ?>
 					</select>
 				</div>
 				<div>
-					<span>Datum:</span>
-					<input required type="date" name="anschaffungsdatum" value="<?php echo $_POST['anschaffungsdatum']; ?>" />
+					<span>Ausleihdatum:</span>
+					<input required type="date" name="anschaffungsdatum" value="<?php echo $_POST['ausleihdatum']; ?>" />
 				</div>
 				<div>
-					<span>Preis:</span>
-					<input required type="number" min="0" max="9999999999" name="anschaffungspreis" value="<?php echo $_POST['anschaffungspreis']; ?>" />
+					<span>Rückgabe:</span>
+					<input type="date" name="rueckgabedatum" value="<?php echo $_POST['rueckgabedatum']; ?>" />
 				</div>
 				<button id="save-button" type="submit" name="save" value="save">save</button>
 			</div>
 		</form>
 		<?php
 		if($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['save'])) {
-			$msg = verify(TOOL_SUPPLIER_ARGS);
+			$msg = verify(TOOL_LENDING_ARGS);
 			$err = $msg !== "";
 			
 			if($msg === "") {
-				if(createToolSupplier($_POST['lieferantennr'], $_POST['anschaffungsdatum'], $_POST['anschaffungspreis'], $_POST['werkzeugnr'])) {
-					$msg = 'Werkzeuglieferant erstellt';
+				if(createToolLending($_POST['exemplarnr'], $_POST['mitarbeiternr'], $_POST['ausleihdatum'], $_POST['rueckgabedatum'])) {
+					$msg = 'Werkzeugausleihe erstellt';
 				} else {
 					$msg = "Ein Fehler is aufgetreten";
 					$err = true;

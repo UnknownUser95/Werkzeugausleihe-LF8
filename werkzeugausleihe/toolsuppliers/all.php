@@ -91,7 +91,7 @@
 	<form method="post">
 			<div class="table">
 				<div class="table-row table-header-row">
-					<div>ID</div>
+					<div>Exemplarnr</div>
 					<div>Lieferant</div>
 					<div>Datum</div>
 					<div>Preis</div>
