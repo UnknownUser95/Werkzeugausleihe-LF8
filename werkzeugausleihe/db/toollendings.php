@@ -49,7 +49,7 @@ function createToolLending(int $exemplarnr, int $mitarbeiternr, string $ausleihd
 	}
 }
 
-function fullEdit(int $exemplarnr, int $mitarbeiternr, string $ausleihdatum, $rueckgabedatum, $zurueckgegebenam): bool {
+function fullEdit(int $exemplarnr, int $mitarbeiternr, string $ausleihdatum, string $rueckgabedatum, string $zurueckgegebenam): bool {
 	$conn = $_SESSION[CON];
 	
 	$rueckgabedatum = _nullOrDate($rueckgabedatum);
