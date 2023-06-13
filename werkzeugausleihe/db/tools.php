@@ -50,12 +50,22 @@ function editTool(int $id, string $bezeichnung, string $beschreibung): bool {
 
 function createTool(string $bezeichnung, string $beschreibung): bool {
 	$conn = $_SESSION[CON];
+	
 	$bezeichnung = $conn->real_escape_string($bezeichnung);
 	$beschreibung = $conn->real_escape_string($beschreibung);
+	
 	try {
 		$conn->query("INSERT INTO werkzeug (bezeichnung, beschreibung) VALUES ('{$bezeichnung}', '{$beschreibung}')");
 		return true;
 	} catch (mysqli_sql_exception $exc) {
 		return false;
 	}
+}
+
+function toolCanBeDeleted(int $id): bool {
+	$conn = $_SESSION[CON];
+	
+	$result = $conn->query("SELECT * FROM werkzeuglieferant WHERE lieferantennr = {$id}");
+	
+	return $result->num_rows === 0;
 }

@@ -15,32 +15,32 @@
 	if($_SERVER["REQUEST_METHOD"] === "POST") {
 		if(isset($_POST['edit'])) {
 			$data = explode("|", $_POST['edit']);
-			$toolLending = getToolLendingByID($data[0], $data[1], $data[2]);
+			$supplier = getToolLendingByID($data[0], $data[1], $data[2]);
 			?>
 		<form method="post">
 			<div class="editor">
 				<div>
 					<span>Exemplarnr:</span>
-					<span><?php  echo formatToolSupplier($toolLending['exemplarnr']); ?></span>
-					<input type="hidden" name="exemplarnr" value="<?php echo $toolLending['exemplarnr']; ?>" />
+					<span><?php  echo formatToolSupplier($supplier['exemplarnr']); ?></span>
+					<input type="hidden" name="exemplarnr" value="<?php echo $supplier['exemplarnr']; ?>" />
 				</div>
 				<div>
 					<span>Mitarbeiter:</span>
-					<span><?php echo getWorkerNameFromID($toolLending['mitarbeiternr']); ?></span>
-					<input type="hidden" name="mitarbeiternr" value="<?php echo $toolLending['mitarbeiternr']; ?>" />
+					<span><?php echo getWorkerNameFromID($supplier['mitarbeiternr']); ?></span>
+					<input type="hidden" name="mitarbeiternr" value="<?php echo $supplier['mitarbeiternr']; ?>" />
 				</div>
 				<div>
 					<span>Ausleihdatum:</span>
-					<span><?php echo $toolLending['ausleihdatum']; ?></span>
-					<input type="hidden" name="ausleihdatum" value="<?php echo $toolLending['ausleihdatum']; ?>" />
+					<span><?php echo $supplier['ausleihdatum']; ?></span>
+					<input type="hidden" name="ausleihdatum" value="<?php echo $supplier['ausleihdatum']; ?>" />
 				</div>
 				<div>
 					<span>Rückgabedatum:</span>
-					<input required type="date"name="rueckgabedatum" value="<?php echo $toolLending['rueckgabedatum']; ?>" />
+					<input required type="date"name="rueckgabedatum" value="<?php echo $supplier['rueckgabedatum']; ?>" />
 				</div>
 				<div>
 					<span>Rückgegeben Am:</span>
-					<input type="date" name="zurueckgegebenam" value="<?php echo $toolLending['zurueckgegebenam']; ?>" />
+					<input type="date" name="zurueckgegebenam" value="<?php echo $supplier['zurueckgegebenam']; ?>" />
 				</div>
 				<div id="buttons">
 					<button type="submit" name="edited" value="edited">speichern</button>
@@ -77,14 +77,14 @@
 
 		if(isset($_POST['delete'])) {
 			$data = explode("|", $_POST['delete']);
-			$toolLending = getToolLendingByID($data[0], $data[1], $data[2]);
+			$supplier = getToolLendingByID($data[0], $data[1], $data[2]);
 			
-			$err = !deleteToolLending($toolLending['exemplarnr'], $toolLending['mitarbeiternr'], $toolLending['ausleihdatum']);
+			$err = !deleteToolLending($supplier['exemplarnr'], $supplier['mitarbeiternr'], $supplier['ausleihdatum']);
 			
 			$msg = "Ein Fehler ist aufgetreten";
 			if(!$err) {
-				$name = getWorkerNameFromID($toolLending['mitarbeiternr']);
-				$msg = "Werkzeugausleihe ({$toolLending['exemplarnr']}|{$name}|{$toolLending['ausleihdatum']}) gelöscht";
+				$name = getWorkerNameFromID($supplier['mitarbeiternr']);
+				$msg = "Werkzeugausleihe ({$supplier['exemplarnr']}|{$name}|{$supplier['ausleihdatum']}) gelöscht";
 			}
 			
 			?>
@@ -109,17 +109,17 @@
 					<div>Aktionen</div>
 				</div>
 			<?php
-			foreach(getAllToollendings() as $toolLending) {
+			foreach(getAllToollendings() as $supplier) {
 				?>
 			<div class="table-row">
-				<div><?php echo formatToolSupplier($toolLending['exemplarnr']); ?></div>
-				<div><?php echo getWorkerNameFromID($toolLending['mitarbeiternr']); ?></div>
-				<div><?php echo $toolLending['ausleihdatum']; ?></div>
-				<div><?php echo printNullableDate($toolLending['rueckgabedatum']); ?></div>
-				<div><?php echo printNullableDate($toolLending['zurueckgegebenam']); ?></div>
+				<div><?php echo formatToolSupplier($supplier['exemplarnr']); ?></div>
+				<div><?php echo getWorkerNameFromID($supplier['mitarbeiternr']); ?></div>
+				<div><?php echo $supplier['ausleihdatum']; ?></div>
+				<div><?php echo printNullableDate($supplier['rueckgabedatum']); ?></div>
+				<div><?php echo printNullableDate($supplier['zurueckgegebenam']); ?></div>
 				<div class="no-border actions">
 					<div class="actions-grid">
-						<?php $payload = "{$toolLending['exemplarnr']}|{$toolLending['mitarbeiternr']}|{$toolLending['ausleihdatum']}"; ?>
+						<?php $payload = "{$supplier['exemplarnr']}|{$supplier['mitarbeiternr']}|{$supplier['ausleihdatum']}"; ?>
 						<button type="submit" name="delete" value="<?php echo $payload; ?>">delete</button>
 						<button type="submit" name="edit" value="<?php echo $payload; ?>">edit</button>
 					</div>

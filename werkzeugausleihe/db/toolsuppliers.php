@@ -72,3 +72,11 @@ function getToolNameFromID(int $id): string {
 	require_once __DIR__.'/tools.php';
 	return getToolByID($id)['bezeichnung'];
 }
+
+function toolsupplierCanBeDeleted(int $id): bool {
+	$conn = $_SESSION[CON];
+	
+	$result = $conn->query("SELECT * FROM werkzeugausleihe WHERE exemplarnr = {$id}");
+	
+	return $result->num_rows === 0;
+}

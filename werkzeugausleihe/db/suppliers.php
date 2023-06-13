@@ -63,3 +63,11 @@ function createSupplier(string $firma, string $ansprechpartnerName, string $ansp
 		return false;
 	}
 }
+
+function supplierCanBeDeleted(int $id): bool {
+	$conn = $_SESSION[CON];
+	
+	$result = $conn->query("SELECT * FROM werkzeuglieferant WHERE lieferantennr = {$id}");
+	
+	return $result->num_rows === 0;
+}

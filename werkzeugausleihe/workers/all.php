@@ -93,7 +93,11 @@
 					<div><?php echo $worker['geburtsdatum']; ?></div>
 					<div class="no-border actions">
 						<div class="actions-grid">
-							<button type="submit" name="delete" value="<?php echo $worker["mitarbeiternr"]; ?>">delete</button>
+							<?php if(workerCanBeDeleted($worker['mitarbeiternr'])) { ?>
+								<button type="submit" name="delete" value="<?php echo $worker["mitarbeiternr"]; ?>">delete</button>
+							<?php } else { ?>
+								<button>not possible</button>
+							<?php } ?>
 							<button type="submit" name="edit" value="<?php echo $worker["mitarbeiternr"]; ?>">edit</button>
 						</div>
 					</div>

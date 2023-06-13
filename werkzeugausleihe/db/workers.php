@@ -51,9 +51,11 @@ function editWorker(int $id, string $vorname, string $nachname, string $geburtsd
 
 function createWorker(string $vorname, string $nachname, string $geburtsdatum): bool {
 	$conn = $_SESSION[CON];
+	
 	$vorname = $conn->real_escape_string($vorname);
 	$nachname = $conn->real_escape_string($nachname);
 	$geburtsdatum = $conn->real_escape_string($geburtsdatum);
+	
 	try {
 		$conn->query("INSERT INTO mitarbeiter (vorname, nachname, geburtsdatum) VALUES ('{$vorname}', '{$nachname}', '{$geburtsdatum}')");
 		return true;
@@ -69,4 +71,12 @@ function getWorkerNameFromID(int $id) {
 
 function getWorkerNameFromResult($worker) {
 	return "{$worker['nachname']}, {$worker['vorname']}";
+}
+
+function workerCanBeDeleted(int $id): bool {
+	$conn = $_SESSION[CON];
+	
+	$result = $conn->query("SELECT * FROM werkzeugausleihe WHERE mitarbeiternr = {$id}");
+	
+	return $result->num_rows === 0;
 }

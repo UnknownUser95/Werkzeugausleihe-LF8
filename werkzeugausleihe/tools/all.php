@@ -87,7 +87,11 @@
 					<div><?php echo $tool['beschreibung']; ?></div>
 					<div class="no-border actions">
 						<div class="actions-grid">
-							<button type="submit" name="delete" value="<?php echo $tool["werkzeugnr"]; ?>">delete</button>
+							<?php if(toolCanBeDeleted($tool['werkzeugnr'])) { ?>
+								<button type="submit" name="delete" value="<?php echo $tool["werkzeugnr"]; ?>">delete</button>
+							<?php } else { ?>
+								<button>not possible</button>
+							<?php } ?>
 							<button type="submit" name="edit" value="<?php echo $tool["werkzeugnr"]; ?>">edit</button>
 						</div>
 					</div>
