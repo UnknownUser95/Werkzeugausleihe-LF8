@@ -19,26 +19,20 @@
 			?>
 		<form method="post">
 			<div class="editor">
-				<input type="hidden" name="exemplarnr" value="<?php echo $toolLending['exemplarnr']; ?>" />
 				<div>
 					<span>Exemplarnr:</span>
-					<select required name="exemplarnr">
-					<?php foreach(getAllToolSuppliers() as $baseToolSupplier) {?>
-						<option value="<?php echo $baseToolSupplier['exemplarnr'];?>" <?php if($baseToolSupplier['exemplarnr'] === $toolLending['exemplarnr']) { echo 'selected="selected"'; } ?>><?php echo formatToolSupplierResult($baseToolSupplier); ?></option>
-					<?php } ?>
-					</select>
+					<span><?php  echo formatToolSupplier($toolLending['exemplarnr']); ?></span>
+					<input type="hidden" name="exemplarnr" value="<?php echo $toolLending['exemplarnr']; ?>" />
 				</div>
 				<div>
 					<span>Mitarbeiter:</span>
-					<select required name="mitarbeiternr">
-					<?php foreach(getAllWorkers() as $baseWorker) {?>
-						<option value="<?php echo $baseWorker['mitarbeiternr'];?>" <?php if($baseWorker['mitarbeiternr'] === $toolLending['mitarbeiternr']) { echo 'selected="selected"'; } ?>><?php echo getWorkerNameFromResult($baseWorker); ?></option>
-					<?php } ?>
-					</select>
+					<span><?php echo getWorkerNameFromID($toolLending['mitarbeiternr']); ?></span>
+					<input type="hidden" name="mitarbeiternr" value="<?php echo $toolLending['mitarbeiternr']; ?>" />
 				</div>
 				<div>
 					<span>Ausleihdatum:</span>
-					<input required type="date" name="ausleihdatum" value="<?php echo $toolLending['ausleihdatum']; ?>" />
+					<span><?php echo $toolLending['ausleihdatum']; ?></span>
+					<input type="hidden" name="ausleihdatum" value="<?php echo $toolLending['ausleihdatum']; ?>" />
 				</div>
 				<div>
 					<span>Rückgabedatum:</span>
@@ -85,17 +79,17 @@
 			$data = explode("|", $_POST['delete']);
 			$toolLending = getToolLendingByID($data[0], $data[1], $data[2]);
 			
-			$err = deleteToolLending($toolLending['exemplarnr'], $toolLending['mitarbeiternr'], $toolLending['ausleihdatum']);
+			$err = !deleteToolLending($toolLending['exemplarnr'], $toolLending['mitarbeiternr'], $toolLending['ausleihdatum']);
 			
 			$msg = "Ein Fehler ist aufgetreten";
 			if(!$err) {
-				$name = getWorkerNameFromID($toolLending[]);
+				$name = getWorkerNameFromID($toolLending['mitarbeiternr']);
 				$msg = "Werkzeugausleihe ({$toolLending['exemplarnr']}|{$name}|{$toolLending['ausleihdatum']}) gelöscht";
 			}
 			
 			?>
 			<form method="post">
-				<div class="result-message <?php echo $err ? "good-message" : "error-message" ?>">
+				<div class="result-message <?php echo $err ? "error-message" : "good-message" ?>">
 					<button type="submit">hide</button>
 					<?php echo $msg; ?>
 				</div>
@@ -118,7 +112,7 @@
 			foreach(getAllToollendings() as $toolLending) {
 				?>
 			<div class="table-row">
-				<div><?php echo $toolLending['exemplarnr']; ?></div>
+				<div><?php echo formatToolSupplier($toolLending['exemplarnr']); ?></div>
 				<div><?php echo getWorkerNameFromID($toolLending['mitarbeiternr']); ?></div>
 				<div><?php echo $toolLending['ausleihdatum']; ?></div>
 				<div><?php echo printNullableDate($toolLending['rueckgabedatum']); ?></div>
